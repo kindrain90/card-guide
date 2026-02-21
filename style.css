@@ -523,8 +523,7 @@ body.modal-open {
 }
 
 
-/* ============================= */
-/* 필터 레이아웃 간격 강제 조정  */
+
 /* 1) FILTER ↔ 실적조건: 1/4로 축소 */
 /* 2) 실적조건 ↔ 카드그리드: 여백 확대 */
 /* ============================= */
@@ -550,14 +549,23 @@ body.modal-open {
 
 
 /* ============================= */
-/* 필터 UI 통일 후 간격 조정     */
-/* - FILTER ↔ 실적조건: 타이트   */
-/* - 실적조건 ↔ 카드 그리드: 넓게 */
+/* 필터 간격 최종 조정 (통일 UI) */
+/* - FILTER ↔ 실적조건: 보기 좋은 타이트 간격
+/* - 실적조건 ↔ 카드그리드: 넉넉한 간격 */
 /* ============================= */
-.container .filter-wrapper + .filter-wrapper{
-  margin-top: 14px !important;     /* FILTER ↔ 실적조건 */
+
+/* 기존 margin-bottom 초기화 */
+.container .filter-wrapper{
+  margin-bottom: 0 !important;
 }
+
+/* FILTER(첫번째)와 실적조건(두번째) 사이 간격 */
+.container .filter-wrapper + .filter-wrapper{
+  margin-top: 18px !important;
+}
+
+/* 실적조건과 카드그리드 사이 간격 */
 .container .filter-wrapper:last-of-type{
-  margin-bottom: 70px !important;  /* 실적조건 ↔ 카드 */
+  margin-bottom: 64px !important;
 }
 
