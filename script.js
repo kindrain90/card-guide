@@ -988,7 +988,7 @@ const benefitData = [
         "title": "참! 좋은 kt wiz 카드"
     },
     {
-        "issuer": "unknown",
+        "issuer": "ib",
         "id": 1889,
         "monthlyRequirement": "30",
         "category": "credit",
@@ -1001,7 +1001,7 @@ const benefitData = [
         "title": "기업은행 참! 좋은 다이소카드"
     },
     {
-        "issuer": "unknown",
+        "issuer": "ib",
         "id": 1573,
         "monthlyRequirement": "30",
         "category": "credit",
@@ -1132,7 +1132,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       cleanValue = convertKoreanToNumber(cleanValue);
 
       const issuerNames = {
-        'lotte': '롯데카드',
+        'ib': 'IBK기업은행',
+'lotte': '롯데카드',
         'kb': 'KB국민카드',
         'samsung': '삼성카드',
         'shinhan': '신한카드',
