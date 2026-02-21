@@ -522,3 +522,29 @@ body.modal-open {
   color: #0066cc;
 }
 
+
+/* ============================= */
+/* 필터 레이아웃 간격 강제 조정  */
+/* 1) FILTER ↔ 실적조건: 1/4로 축소 */
+/* 2) 실적조건 ↔ 카드그리드: 여백 확대 */
+/* ============================= */
+
+/* 페이지 안에 filter-wrapper가 2개(카드사/실적) 있는 구조 기준 */
+.container .filter-wrapper:first-of-type{
+  margin-bottom: 14px !important;   /* ← FILTER와 실적조건 사이 간격(기존 대비 대폭 축소) */
+}
+
+.container .filter-wrapper:nth-of-type(2){
+  margin-bottom: 70px !important;   /* ← 실적조건과 카드 사이 간격 확대 */
+}
+
+/* 혹시 filter-group 자체 margin이 잡혀 있으면 제거 */
+.filter-group{
+  margin: 0 !important;
+}
+
+/* wrapper 내부 여백도 조금 더 타이트하게 */
+.filter-wrapper{
+  gap: 6px !important;
+}
+
