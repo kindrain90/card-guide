@@ -409,3 +409,34 @@ header {
 /* 기존 탭(.tab-btn/.issuer-tabs) 호환용: 혹시 남아있다면 동일 스타일 적용 */
 .issuer-tabs{display:none;}
 
+
+/* =============================== */
+/* Modal Scroll Enhancement       */
+/* =============================== */
+
+/* 모달 전체 화면 고정 */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* 모달 내부 스크롤 가능 */
+.modal-content {
+    max-height: 85vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+/* 스크롤바 커스터마이징 (Chrome) */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 107, 0.6);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
