@@ -1232,6 +1232,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             cardEl.style.cursor = 'pointer';
             cardEl.addEventListener('click', () => {
                 modalTitle.textContent = card.title;
+                // 모달 이미지도 hor/ver 폴백 적용
+                modalImg.onerror = () => window.handleImageError(modalImg);
+                delete modalImg.dataset.fallbackTried;
                 modalImg.src = imgUrl;
                 // ✅ 우측: 상세 이용 제한(출처 '영화 섹션'만 수동 관리)
                 // cinema_details.js에 카드 id별로 배열을 넣어두면 그대로 표시됩니다.
