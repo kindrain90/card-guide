@@ -23,17 +23,24 @@
         </header>
 
         <!-- 카드사 필터 탭 -->
-        <div class="issuer-tabs">
-            <button class="tab-btn active" data-issuer="all">전체</button>
-            <button class="tab-btn" data-issuer="lotte">롯데</button>
-            <button class="tab-btn" data-issuer="kb">KB국민</button>
-            <button class="tab-btn" data-issuer="samsung">삼성</button>
-            <button class="tab-btn" data-issuer="shinhan">신한</button>
-            <button class="tab-btn" data-issuer="hyundai">현대</button>
-            <button class="tab-btn" data-issuer="woori">우리</button>
-            <button class="tab-btn" data-issuer="hana">하나</button>
-            <button class="tab-btn" data-issuer="nh">NH농협</button>
+        
+    <div class="filter-wrapper">
+        <div class="filter-group">
+            <div class="group-label">FILTER</div>
+            <div class="filter-container" id="issuerButtons">
+                <button type="button" class="filter-btn active" data-issuer="all">전체</button>
+                <button type="button" class="filter-btn" data-issuer="lotte">롯데</button>
+                <button type="button" class="filter-btn" data-issuer="kb">KB국민</button>
+                <button type="button" class="filter-btn" data-issuer="samsung">삼성</button>
+                <button type="button" class="filter-btn" data-issuer="shinhan">신한</button>
+                <button type="button" class="filter-btn" data-issuer="hyundai">현대</button>
+                <button type="button" class="filter-btn" data-issuer="woori">우리</button>
+                <button type="button" class="filter-btn" data-issuer="hana">하나</button>
+                <button type="button" class="filter-btn" data-issuer="nh">NH농협</button>
+            </div>
         </div>
+    </div>
+
 
         <section id="cardGrid" class="card-grid">
             <!-- 자바스크립트에 의해 동적으로 생성됩니다 -->

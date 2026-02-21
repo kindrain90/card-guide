@@ -1026,7 +1026,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const modalSourceLink = document.getElementById('modalSourceLink');
   const closeModal = document.querySelector('.close-modal');
 
-  const tabButtons = document.querySelectorAll('.tab-btn');
+  const tabButtons = document.querySelectorAll('.filter-btn');
 
   // 제한사항 데이터(출처 링크용)
   let limitsMap = (typeof limits_data !== 'undefined') ? limits_data : {};
@@ -1050,14 +1050,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   if (closeModal && modal) {
     closeModal.addEventListener('click', () => {
-      modal.style.display = 'none';
+      modal.classList.remove('active');
     });
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.style.display = 'none';
+      if (e.target === modal) modal.classList.remove('active');
     });
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.style.display === 'block') {
-        modal.style.display = 'none';
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        modal.classList.remove('active');
       }
     });
   }
@@ -1145,11 +1145,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       let requirementTag = '';
       if (card.monthlyRequirement === '30') {
-        requirementTag = '<span class="requirement-tag req-30">#전월 실적 30만원 이상</span>';
+        requirementTag = '<span class="tag">#전월 실적 30만원 이상</span>';
       } else if (card.monthlyRequirement === '50') {
-        requirementTag = '<span class="requirement-tag req-50">#전월 실적 50만원 이상</span>';
+        requirementTag = '<span class="tag">#전월 실적 50만원 이상</span>';
       } else {
-        requirementTag = '<span class="requirement-tag req-none">#실적 제한 없음</span>';
+        requirementTag = '<span class="tag">#실적 제한 없음</span>';
       }
 
       cardEl.innerHTML = `
@@ -1162,7 +1162,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           <div class="benefit-info">
             <span class="benefit-value">${cleanValue}</span>
           </div>
-          <div class="requirement-tags">
+          <div class="tag-container">
             ${requirementTag}
           </div>
         </div>
@@ -1201,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           modalSourceLink.style.display = 'inline-block';
         }
 
-        modal.style.display = 'block';
+        modal.classList.add('active');
       });
 
       cardGrid.appendChild(cardEl);
