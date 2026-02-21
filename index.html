@@ -43,16 +43,24 @@
     <!-- 이미지 모달 -->
     <div id="imageModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+                        <span class="close-modal">&times;</span>
             <img id="modalImg" class="modal-img" src="" alt="카드 이미지">
             <h2 id="modalTitle" class="modal-title"></h2>
-            <section class="modal-limits" id="modalLimitsSection">
-                <h3>상세 이용 제한</h3>
-                <ul id="modalLimitsList" class="modal-limits-list"></ul>
-                <div id="modalBody" style="display:none;"></div> <!-- 호환성을 위해 유지하거나 script.js 수정 필요 -->
-                <a id="modalSourceLink" class="modal-source-link" href="#" target="_blank" rel="noopener noreferrer">출처
-                    보기</a>
-            </section>
+
+            <!-- 2단 레이아웃: 좌(영화관 혜택) / 우(상세 이용 제한) -->
+            <div class="modal-grid">
+                <section class="modal-benefits" id="modalBenefitsSection">
+                    <h3>영화관 혜택</h3>
+                    <ul id="modalBenefitsList" class="modal-benefits-list"></ul>
+                </section>
+
+                <section class="modal-limits" id="modalLimitsSection">
+                    <h3>상세 이용 제한</h3>
+                    <ul id="modalLimitsList" class="modal-limits-list"></ul>
+                    <div id="modalBody" style="display:none;"></div>
+                    <a id="modalSourceLink" class="modal-source-link" href="#" target="_blank" rel="noopener noreferrer">출처 보기</a>
+                </section>
+            </div>
         </div>
     </div>
 

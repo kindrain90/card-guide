@@ -1024,6 +1024,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImg');
     const modalTitle = document.getElementById('modalTitle');
+    const modalBenefitsSection = document.getElementById('modalBenefitsSection');
+    const modalBenefitsList = document.getElementById('modalBenefitsList');
     const modalLimitsList = document.getElementById('modalLimitsList'); // 새 리스트 요소
     const modalSourceLink = document.getElementById('modalSourceLink'); // 새 링크 요소
     const closeModal = document.querySelector('.close-modal');
@@ -1048,17 +1050,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 로컬 데이터 변수 확인 및 할당 (CORS 방지용 JS 파일 연동)
     const localCardallData = (typeof cardall_data !== 'undefined') ? cardall_data : [];
-
-    // 1. 연회비 정보 통합
-    if (localCardallData.length > 0) {
-        benefitData.forEach(card => {
-            const extraInfo = localCardallData.find(c => String(c.cardId) === String(card.id));
-            if (extraInfo && extraInfo.annualFee) {
-                card.annualFee = extraInfo.annualFee;
-            }
-        });
-        console.log('연회비 데이터 매핑 완료');
-    }
 
     window.handleImageError = (img) => {
         img.onerror = null;
@@ -1199,8 +1190,33 @@ document.addEventListener('DOMContentLoaded', async () => {
                 modalTitle.textContent = card.title;
                 modalImg.src = imgUrl;
 
+                // ✅ 영화관 혜택(좌측) 렌더링: benefitData는 이미 영화관 혜택만 모아둔 데이터
+                if (modalBenefitsList && modalBenefitsSection) {
+                    const rawBenefit = (card.value || card.desc || '').trim();
+                    const benefitText = rawBenefit ? convertKoreanToNumber(rawBenefit.replace(/원\s+결제시/g, '결제시')) : '';
+                    modalBenefitsList.innerHTML = '';
+                    if (benefitText) {
+                        const li = document.createElement('li');
+                        li.textContent = benefitText;
+                        modalBenefitsList.appendChild(li);
+                        modalBenefitsSection.style.display = '';
+                    } else {
+                        const li = document.createElement('li');
+                        li.textContent = '영화관 혜택 정보가 없습니다.';
+                        modalBenefitsList.appendChild(li);
+                        modalBenefitsSection.style.display = '';
+                    }
+                }
+
+
                 const record = limitsMap[String(card.id)];
                 let limits = record?.limits || [];
+                // ✅ 동일 문구(혜택 요약) 중복 노출 방지: 좌측 혜택에 표시된 문장은 우측 제한에서 제외
+                const benefitSignature = (card.value || card.desc || '').replace(/\s+/g, ' ').trim();
+                if (benefitSignature) {
+                    limits = limits.filter(t => t.replace(/\s+/g, ' ').trim() !== benefitSignature);
+                }
+
 
                 // ✅ 영화 관련 혜택 및 상세 제약사항 필터링 (최대한 심플하게)
                 const coreMovieKeywords = ['영화', '시네마', 'Lotte Cinema', 'CGV', '메가박스', '티켓', '관람권'];
