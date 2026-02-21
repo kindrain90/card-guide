@@ -2,7 +2,7 @@ const benefitData = [
     {
         "id": 10304,
         "category": "credit",
-        "issuer": "lotte",
+        "issuer": "ib",
         "title": "디지로카 London",
         "desc": "롯데시네마 0.7% 현금캐시백",
         "value": "롯데시네마 0.7% 현금캐시백",
