@@ -106,17 +106,17 @@ header {
 }
 
 .filter-wrapper {
-    margin-bottom: 70px;
-    /* 기본 하단 마진 대폭 확대 */
+    margin-bottom: 90px;   /* 실적 필터와 카드 그리드 사이 간격 ↑ */
     display: flex;
     flex-direction: column;
+    gap: 10px;             /* 필터 그룹(카드사/실적) 사이 간격 ↓ (기존 대비 절반 수준) */
 }
 
 .filter-group {
     display: flex;
     align-items: center;
     gap: 20px;
-    padding: 12px;
+    padding: 10px;
     background: #fff;
     border-radius: 40px;
     box-shadow: var(--shadow-soft);

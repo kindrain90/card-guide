@@ -1153,9 +1153,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
 
     let filteredData = benefitData;
-    if (issuerFilter !== 'all') {
-      filteredData = benefitData.filter(card => card.issuer === issuerFilter);
-    }
+
+        // ✅ 카드사 필터
+        if (issuerFilter !== 'all') {
+            filteredData = filteredData.filter(card => card.issuer === issuerFilter);
+        }
+
+        // ✅ 실적 조건 필터 (AND)
+        if (requirementFilter !== 'all') {
+            filteredData = filteredData.filter(card => {
+                if (requirementFilter === 'none') return card.monthlyRequirement === 'none';
+                return card.monthlyRequirement === requirementFilter;
+            });
+        }
 
     const sortedData = [...filteredData].sort((a, b) =>
       (categoryPriority[a.category] - categoryPriority[b.category]) || (b.sortValue - a.sortValue)
@@ -1268,5 +1278,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  renderCards(currentIssuer, currentRequirement);
+  // ✅ 실적 버튼 이벤트
+    const requirementButtons = document.querySelectorAll('.requirement-btn');
+    requirementButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            requirementButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            currentRequirement = btn.getAttribute('data-requirement');
+            renderCards(currentIssuer, currentRequirement);
+        });
+    });
+
+    renderCards(currentIssuer, currentRequirement);
 });
