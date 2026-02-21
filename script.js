@@ -1,4 +1,4 @@
-﻿const benefitData = [
+const benefitData = [
     {
         "id": 10304,
         "category": "credit",
@@ -1016,354 +1016,214 @@
 ];
 
 document.addEventListener('DOMContentLoaded', async () => {
+  const cardGrid = document.getElementById('cardGrid');
 
+  // 모달 요소
+  const modal = document.getElementById('imageModal');
+  const modalImg = document.getElementById('modalImg');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBenefitsList = document.getElementById('modalBenefitsList');
+  const modalLimitsList = document.getElementById('modalLimitsList');
+  const modalSourceLink = document.getElementById('modalSourceLink');
+  const closeModal = document.querySelector('.close-modal');
 
-    const cardGrid = document.getElementById('cardGrid');
+  const tabButtons = document.querySelectorAll('.tab-btn');
 
-    // ✅ 모달 요소 (index.html에 모달이 있어야 함)
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImg');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalBenefitsSection = document.getElementById('modalBenefitsSection');
-    const modalBenefitsList = document.getElementById('modalBenefitsList');
-    const modalLimitsList = document.getElementById('modalLimitsList'); // 새 리스트 요소
-    const modalSourceLink = document.getElementById('modalSourceLink'); // 새 링크 요소
-    const closeModal = document.querySelector('.close-modal');
+  // 제한사항 데이터(출처 링크용)
+  let limitsMap = (typeof limits_data !== 'undefined') ? limits_data : {};
 
-    const tabButtons = document.querySelectorAll('.tab-btn');
-
-    // ✅ 제한사항 데이터 로드
-    let limitsMap = (typeof limits_data !== 'undefined') ? limits_data : {};
-
-    // 비동기 fetch는 보조적으로 유지 (필요 시 업데이트용)
-    try {
-        const res = await fetch('./limits.json', { cache: 'no-cache' });
-        if (res.ok) {
-            const fetchedMap = await res.json();
-            limitsMap = { ...limitsMap, ...fetchedMap };
-            console.log('limits.json 병합 완료');
-        }
-    } catch (e) {
-        console.log('limits.json fetch 생략 (로컬 데이터 사용)');
+  // (선택) json 병합은 유지
+  try {
+    const res = await fetch('./limits.json', { cache: 'no-cache' });
+    if (res.ok) {
+      const fetchedMap = await res.json();
+      limitsMap = { ...limitsMap, ...fetchedMap };
+      console.log('limits.json 병합 완료');
     }
-    let currentIssuer = 'all'; // 현재 선택된 카드사
+  } catch (e) {
+    console.log('limits.json fetch 생략 (로컬 데이터 사용)');
+  }
 
-    // 연회비/부가정보(cardall_data)는 사용하지 않음 (요청사항: 연회비 제거)
+  window.handleImageError = (img) => {
+    img.onerror = null;
+    img.src = 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
+  };
 
-    window.handleImageError = (img) => {
-        img.onerror = null;
-        img.src = 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
-    };
+  if (closeModal && modal) {
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        modal.style.display = 'none';
+      }
+    });
+  }
 
-    // ✅ 모달 닫기
-    if (closeModal && modal) {
-        closeModal.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
+  // 깨진 이미지 URL 정규화
+  function normalizeImgUrl(url) {
+    if (!url) return url;
+    return url.replace(
+      /^https:\/\/vertical\.pstatic\.nethttps:\/\/vertical\.pstatic\.net\//,
+      'https://vertical.pstatic.net/'
+    );
+  }
 
-        // 바깥 클릭 시 닫기
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.style.display = 'none';
-        });
+  // 한글 숫자(만/천/백/십) 복합 단위 변환
+  function convertKoreanToNumber(text) {
+    const unitMap = { 만: 10000, 천: 1000, 백: 100, 십: 10 };
 
-        // ✅ ESC 키 누를 때 닫기 추가
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && modal.style.display === 'block') {
-                modal.style.display = 'none';
-            }
-        });
-    }
-
-    // ✅ 안전 패치: 깨진 이미지 URL(도메인 중복) 정규화
-    function normalizeImgUrl(url) {
-        if (!url) return url;
-        return url.replace(
-            /^https:\/\/vertical\.pstatic\.nethttps:\/\/vertical\.pstatic\.net\//,
-            'https://vertical.pstatic.net/'
-        );
-    }
-
-    // ✅ 안전 패치: 한글 숫자(만/천/백/십) 복합 단위까지 안정 변환
-    function convertKoreanToNumber(text) {
-        const unitMap = { 만: 10000, 천: 1000, 백: 100, 십: 10 };
-
-        let result = text.replace(/(\d+(?:만|천|백|십))+/g, (chunk) => {
-            let total = 0;
-            const re = /(\d+)(만|천|백|십)/g;
-            let m;
-            while ((m = re.exec(chunk)) !== null) {
-                total += parseInt(m[1], 10) * unitMap[m[2]];
-            }
-            return total.toLocaleString();
-        });
-
-        result = result.replace(
-            /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(청구할인|현금캐시백|포인트적립|현장할인)/g,
-            '$1원 $2'
-        );
-
-        result = result.replace(
-            /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(결제시)/g,
-            '$1원 $2'
-        );
-
-        return result;
-    }
-
-    function renderCards(issuerFilter = 'all') {
-        cardGrid.innerHTML = '';
-        const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
-
-        let filteredData = benefitData;
-        if (issuerFilter !== 'all') {
-            filteredData = benefitData.filter(card => card.issuer === issuerFilter);
-        }
-
-        const sortedData = [...filteredData].sort((a, b) =>
-            (categoryPriority[a.category] - categoryPriority[b.category]) || (b.sortValue - a.sortValue)
-        );
-
-        if (sortedData.length === 0) {
-            cardGrid.innerHTML = '<div class="no-results">표시할 할인 정보가 없습니다.</div>';
-            return;
-        }
-
-        sortedData.forEach((card, index) => {
-            const cardEl = document.createElement('div');
-            cardEl.className = 'benefit-card';
-            cardEl.style.animationDelay = `${index * 0.02}s`;
-
-            const imgUrl = normalizeImgUrl(card.img);
-
-            let cleanValue = (card.value || '')
-                .replace(/롯데시네마에서\s*/g, '')
-                .replace(/롯데시네마\s*/g, '')
-                .replace(/원\s+결제시/g, '결제시')
-                .trim();
-
-            cleanValue = convertKoreanToNumber(cleanValue);
-
-            const issuerNames = {
-                'lotte': '롯데카드',
-                'kb': 'KB국민카드',
-                'samsung': '삼성카드',
-                'shinhan': '신한카드',
-                'hyundai': '현대카드',
-                'woori': '우리카드',
-                'hana': '하나카드',
-                'nh': 'NH농협카드'
-            };
-            const issuerName = issuerNames[card.issuer] || '신용/체크';
-
-            let requirementTag = '';
-            let requirementText = '';
-            if (card.monthlyRequirement === '30') {
-                requirementTag = '<span class="requirement-tag req-30">#전월 실적 30만원 이상</span>';
-                requirementText = '전월 실적: 30만원 이상';
-            } else if (card.monthlyRequirement === '50') {
-                requirementTag = '<span class="requirement-tag req-50">#전월 실적 50만원 이상</span>';
-                requirementText = '전월 실적: 50만원 이상';
-            } else {
-                requirementTag = '<span class="requirement-tag req-none">#실적 제한 없음</span>';
-                requirementText = '전월 실적: 제한 없음';
-            }
-
-            cardEl.innerHTML = `
-                <div class="card-img-wrapper">
-                     <img src="${imgUrl}" alt="${card.title}" onerror="handleImageError(this)" referrerpolicy="no-referrer">
-                </div>
-                <div class="card-content">
-                    <span class="card-type">${issuerName}</span>
-                    <h1 class="card-title">${card.title}</h1>
-                    <div class="benefit-info">
-                        <span class="benefit-value">${cleanValue}</span>
-                    </div>
-                    <div class="requirement-tags">
-                        ${requirementTag}
-                    </div>
-                </div>
-            `;
-
-            cardEl.style.cursor = 'pointer';
-            cardEl.addEventListener('click', () => {
-                modalTitle.textContent = card.title;
-                modalImg.src = imgUrl;
-
-                // ✅ 영화관 혜택(좌측) 렌더링: benefitData는 이미 영화관 혜택만 모아둔 데이터
-                if (modalBenefitsList && modalBenefitsSection) {
-                    const rawBenefit = (card.value || card.desc || '').trim();
-                    const benefitText = rawBenefit ? convertKoreanToNumber(rawBenefit.replace(/원\s+결제시/g, '결제시')) : '';
-                    modalBenefitsList.innerHTML = '';
-                    if (benefitText) {
-                        const li = document.createElement('li');
-                        li.textContent = benefitText;
-                        modalBenefitsList.appendChild(li);
-                        modalBenefitsSection.style.display = '';
-                    } else {
-                        const li = document.createElement('li');
-                        li.textContent = '영화관 혜택 정보가 없습니다.';
-                        modalBenefitsList.appendChild(li);
-                        modalBenefitsSection.style.display = '';
-                    }
-                }
-
-
-                const record = limitsMap[String(card.id)];
-                let limits = record?.limits || [];
-                // ✅ 동일 문구(혜택 요약) 중복 노출 방지: 좌측 혜택에 표시된 문장은 우측 제한에서 제외
-                const benefitSignature = (card.value || card.desc || '').replace(/\s+/g, ' ').trim();
-                if (benefitSignature) {
-                    limits = limits.filter(t => t.replace(/\s+/g, ' ').trim() !== benefitSignature);
-                }
-
-
-                // ✅ 영화(영화관) 섹션만 '출처(제공사/포털) 상세'에서 뽑아서 우측(이용제한)에 노출
-                //    - 목표: '영화' 섹션의 혜택/안내/조건만 남기고, 타 업종/보일러플레이트는 최대한 제거
-                function normalizeLine(s) {
-                    return (s || '').toString().replace(/\s+/g, ' ').trim();
-                }
-                function startsWithAny(text, prefixes) {
-                    return prefixes.some(p => text.startsWith(p));
-                }
-                const movieKeywords = ['영화', '영화관', '롯데시네마', 'CGV', '메가박스', '시네마', '티켓', '관람권', 'Lotte Cinema'];
-                const conditionKeywords = ['전월', '실적', '이용금액', '한도', '횟수', '월', '연', '통합', '결제', '결제일', '할인', '적립', '캐시백', '포인트'];
-                // 다른 섹션(카테고리) 헤더로 자주 등장하는 접두어들
-                const nonMovieCategoryStarts = [
-                    '카페/베이커리', '카페', '커피', '편의점', '주유', '교통', '대중교통', '택시', '쇼핑', '대형마트', '백화점', '외식', '배달', '문화', '레저',
-                    '뷰티', '의료', '교육', '육아', '반려동물', '오토', '주차', '주차장', '세차', '세차장', '렌탈', '금융', '통신', '보험', '항공', '면세점'
-                ];
-                // 너무 노이즈가 많은 문구(단, 영화 섹션 컨텍스트에서 '조건'이면 예외로 통과)
-                const noisyBoilerplate = [
-                    '신규 회원', '최대 100% 지급', '금융상품', '상품설명서', '약관', '신용평점', '연체이자율', '법정 최고금리', '단기카드대출', '장기카드대출',
-                    '현금서비스', '카드론', '연회비', '수수료', '이자', '발급', '출시일'
-                ];
-
-                function isMovieLine(t) {
-                    // '영화' 섹션 헤더/혜택 라인 인식
-                    if (!t) return false;
-                    if (t === '영화') return true;
-                    // "영화영화관 ..." 같이 붙어있는 케이스도 고려
-                    return movieKeywords.some(k => t.includes(k));
-                }
-                function isNonMovieCategoryHeader(t) {
-                    // "카페/베이커리커피 ..." 같은 붙어있는 케이스는 startsWith로 컷
-                    return startsWithAny(t, nonMovieCategoryStarts);
-                }
-                function isConditionLine(t) {
-                    return conditionKeywords.some(k => t.includes(k));
-                }
-                function isTooNoisy(t) {
-                    return noisyBoilerplate.some(k => t.includes(k));
-                }
-
-                function extractMovieSection(lines) {
-                    const out = [];
-                    let inMovie = false;
-                    // 영화 라인 이후에 '조건/안내'가 이어지는 케이스를 위해 몇 줄 버퍼를 둠
-                    let tail = 0;
-
-                    for (const raw of (lines || [])) {
-                        const t = normalizeLine(raw);
-                        if (!t) continue;
-
-                        // 다른 카테고리 섹션 시작이면 영화 컨텍스트 종료
-                        if (inMovie && isNonMovieCategoryHeader(t) && !isMovieLine(t)) {
-                            inMovie = false;
-                            tail = 0;
-                            continue;
-                        }
-
-                        // 영화 섹션 시작/진입
-                        if (isMovieLine(t)) {
-                            inMovie = true;
-                            tail = 4;
-
-                            // 너무 긴 문자열은 UI 가독성 위해 컷(필요하면 늘리세요)
-                            if (t.length <= 220) out.push(t);
-                            continue;
-                        }
-
-                        // 영화 섹션 내부에서만 조건/안내 라인을 추가
-                        if (inMovie) {
-                            // 노이즈 문구는 기본적으로 제외하되, '조건 라인'이면 살림
-                            if (isTooNoisy(t) && !isConditionLine(t)) continue;
-
-                            // "부가혜택 및 통합할인한도" 같은 큰 덩어리 제목은 영화조건이 아니면 제외
-                            if ((t.includes('부가혜택') || t.includes('통합할인')) && !isConditionLine(t)) continue;
-
-                            // 영화 섹션에서는 혜택 안내(예: [혜택 안내])도 살림
-                            const keep = isConditionLine(t) || t.startsWith('[') || t.startsWith('-') || t.startsWith('•') || t.startsWith('※') || tail > 0;
-
-                            if (keep && t.length <= 220) out.push(t);
-
-                            if (tail > 0) tail -= 1;
-                        }
-                    }
-
-                    // 중복 제거(순서 유지)
-                    const seen = new Set();
-                    return out.filter(x => {
-                        const key = x.replace(/\s/g, '');
-                        if (seen.has(key)) return false;
-                        seen.add(key);
-                        return true;
-                    });
-                }
-
-                let filteredLimits = extractMovieSection(limits);
-
-                // fallback: 데이터에 영화 섹션이 거의 없을 때는 '영화 키워드' 포함 라인만이라도 노출
-                if (filteredLimits.length === 0) {
-                    filteredLimits = limits
-                        .map(normalizeLine)
-                        .filter(t => t && movieKeywords.some(k => t.includes(k)) && t.length <= 220);
-                }
-
-                if (filteredLimits.length === 0) {
-                    filteredLimits = ['해당 카드의 영화 관련 상세 내용이 없습니다.'];
-                }
-
-
-                // 리스트 초기화 후 추가
-                modalLimitsList.innerHTML = '';
-                if (filteredLimits.length > 0) {
-                    filteredLimits.forEach(text => {
-                        const li = document.createElement('li');
-                        li.textContent = text;
-                        modalLimitsList.appendChild(li);
-                    });
-                } else {
-                    const li = document.createElement('li');
-                    li.textContent = '해당 카드의 영화관 관련 특별 상세 제한사항이 없습니다. (기본 혜택 적용)';
-                    modalLimitsList.appendChild(li);
-                }
-
-                // 출처 링크 설정
-                if (record && record.sourceUrl) {
-                    modalSourceLink.href = record.sourceUrl;
-                    modalSourceLink.style.display = 'inline-block';
-                } else {
-                    modalSourceLink.style.display = 'none';
-                }
-
-                modal.style.display = 'block';
-            });
-
-
-            cardGrid.appendChild(cardEl);
-        });
-    }
-
-    tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const selectedIssuer = btn.getAttribute('data-issuer');
-            currentIssuer = selectedIssuer;
-            renderCards(selectedIssuer);
-        });
+    let result = text.replace(/(\d+(?:만|천|백|십))+/g, (chunk) => {
+      let total = 0;
+      const re = /(\d+)(만|천|백|십)/g;
+      let m;
+      while ((m = re.exec(chunk)) !== null) {
+        total += parseInt(m[1], 10) * unitMap[m[2]];
+      }
+      return total.toLocaleString();
     });
 
-    renderCards();
+    result = result.replace(
+      /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(청구할인|현금캐시백|포인트적립|현장할인)/g,
+      '$1원 $2'
+    );
+
+    result = result.replace(
+      /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(결제시)/g,
+      '$1원 $2'
+    );
+
+    return result;
+  }
+
+  function renderCards(issuerFilter = 'all') {
+    cardGrid.innerHTML = '';
+    const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
+
+    let filteredData = benefitData;
+    if (issuerFilter !== 'all') {
+      filteredData = benefitData.filter(card => card.issuer === issuerFilter);
+    }
+
+    const sortedData = [...filteredData].sort((a, b) =>
+      (categoryPriority[a.category] - categoryPriority[b.category]) || (b.sortValue - a.sortValue)
+    );
+
+    if (sortedData.length === 0) {
+      cardGrid.innerHTML = '<div class="no-results">표시할 할인 정보가 없습니다.</div>';
+      return;
+    }
+
+    sortedData.forEach((card, index) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'benefit-card';
+      cardEl.style.animationDelay = `${index * 0.02}s`;
+
+      const imgUrl = normalizeImgUrl(card.img);
+
+      let cleanValue = (card.value || '')
+        .replace(/롯데시네마에서\s*/g, '')
+        .replace(/롯데시네마\s*/g, '')
+        .replace(/원\s+결제시/g, '결제시')
+        .trim();
+
+      cleanValue = convertKoreanToNumber(cleanValue);
+
+      const issuerNames = {
+        'lotte': '롯데카드',
+        'kb': 'KB국민카드',
+        'samsung': '삼성카드',
+        'shinhan': '신한카드',
+        'hyundai': '현대카드',
+        'woori': '우리카드',
+        'hana': '하나카드',
+        'nh': 'NH농협카드'
+      };
+      const issuerName = issuerNames[card.issuer] || '신용/체크';
+
+      let requirementTag = '';
+      if (card.monthlyRequirement === '30') {
+        requirementTag = '<span class="requirement-tag req-30">#전월 실적 30만원 이상</span>';
+      } else if (card.monthlyRequirement === '50') {
+        requirementTag = '<span class="requirement-tag req-50">#전월 실적 50만원 이상</span>';
+      } else {
+        requirementTag = '<span class="requirement-tag req-none">#실적 제한 없음</span>';
+      }
+
+      cardEl.innerHTML = `
+        <div class="card-img-wrapper">
+          <img src="${imgUrl}" alt="${card.title}" onerror="handleImageError(this)" referrerpolicy="no-referrer">
+        </div>
+        <div class="card-content">
+          <span class="card-type">${issuerName}</span>
+          <h1 class="card-title">${card.title}</h1>
+          <div class="benefit-info">
+            <span class="benefit-value">${cleanValue}</span>
+          </div>
+          <div class="requirement-tags">
+            ${requirementTag}
+          </div>
+        </div>
+      `;
+
+      cardEl.style.cursor = 'pointer';
+      cardEl.addEventListener('click', () => {
+        modalTitle.textContent = card.title;
+        modalImg.src = imgUrl;
+
+        // ✅ 좌측: 영화관 혜택(이 페이지에서 관리)
+        modalBenefitsList.innerHTML = '';
+        const bLi = document.createElement('li');
+        bLi.textContent = (card.value || card.desc || '').trim();
+        modalBenefitsList.appendChild(bLi);
+
+        // ✅ 우측: 상세 이용 제한(출처 '영화 섹션'만 수동 관리)
+        // cinema_details.js에 카드 id별로 배열을 넣어두면 그대로 표시됩니다.
+        const detailsMap = (typeof cinema_details !== 'undefined') ? cinema_details : {};
+        const details = detailsMap[String(card.id)] || [];
+
+        modalLimitsList.innerHTML = '';
+        if (details.length > 0) {
+          details.forEach(line => {
+            const li = document.createElement('li');
+            li.textContent = line;
+            modalLimitsList.appendChild(li);
+          });
+        } else {
+          const li = document.createElement('li');
+          li.textContent = '수동 영화 섹션 상세내용이 아직 등록되지 않았습니다.';
+          modalLimitsList.appendChild(li);
+        }
+
+        // 출처 링크(있으면 표시)
+        const record = limitsMap[String(card.id)];
+        if (record && record.sourceUrl) {
+          modalSourceLink.href = record.sourceUrl;
+          modalSourceLink.style.display = 'inline-block';
+        } else {
+          // fallback: 네이버 카드검색 형태(원치 않으면 제거해도 됨)
+          modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
+          modalSourceLink.style.display = 'inline-block';
+        }
+
+        modal.style.display = 'block';
+      });
+
+      cardGrid.appendChild(cardEl);
+    });
+  }
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const selectedIssuer = btn.getAttribute('data-issuer');
+      renderCards(selectedIssuer);
+    });
+  });
+
+  renderCards();
 });
