@@ -379,18 +379,20 @@ header {
 
 
 /* === Modal 상세 내용 리스트/출처 버튼 보강 === */
-.modal-limits-list{
+.modal-limits-list {
     margin-top: 18px;
     text-align: left;
     padding-left: 22px;
 }
-.modal-limits-list li{
+
+.modal-limits-list li {
     margin: 8px 0;
     color: var(--text-muted);
     font-size: 0.98rem;
     line-height: 1.65;
 }
-.modal-source-link{
+
+.modal-source-link {
     display: inline-block;
     margin-top: 18px;
     padding: 10px 18px;
@@ -401,13 +403,16 @@ header {
     font-weight: 600;
     transition: var(--transition);
 }
-.modal-source-link:hover{
+
+.modal-source-link:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(255, 107, 107, 0.25);
 }
 
 /* 기존 탭(.tab-btn/.issuer-tabs) 호환용: 혹시 남아있다면 동일 스타일 적용 */
-.issuer-tabs{display:none;}
+.issuer-tabs {
+    display: none;
+}
 
 
 /* =============================== */
@@ -442,18 +447,68 @@ body.modal-open {
 
 
 /* Header helpers */
-.clickable { cursor: pointer; }
-
-.version-badge{
-  font-size: 0.5em;
-  border: 1.5px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 2px 10px;
-  border-radius: 20px;
-  margin-left: 10px;
-  font-weight: 600;
-  font-family: 'Noto Sans KR';
-  vertical-align: middle;
-  display: inline-block;
+.clickable {
+    cursor: pointer;
 }
 
+.version-badge {
+    font-size: 0.5em;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-weight: 600;
+    font-family: 'Noto Sans KR';
+    vertical-align: middle;
+    display: inline-block;
+}
+
+/* ============================= */
+/* Modal Fixed Size + Dual Scroll */
+/* ============================= */
+
+.modal-content {
+    width: 900px;
+    height: 600px;
+
+    max-width: 95vw;
+    max-height: 90vh;
+
+    overflow: auto;
+    /* 가로 + 세로 스크롤 모두 허용 */
+    box-sizing: border-box;
+}
+
+/* 세로 스크롤 */
+.modal-content {
+    overflow-y: auto;
+}
+
+/* 가로 스크롤 */
+.modal-content {
+    overflow-x: auto;
+}
+
+/* 스크롤바 디자인 */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 107, 107, 0.6);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 모바일 대응 */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95vw;
+        height: 85vh;
+    }
+}
