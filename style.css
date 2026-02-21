@@ -119,21 +119,22 @@ header {
 }
 
 
-.filter-wrapper{
+.filter-wrapper {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 0; /* 간격은 아래에서 제어 */
+    margin-bottom: 0;
+    /* 간격은 아래에서 제어 */
 }
 
 /* FILTER ↔ 실적조건 */
-.container .filter-wrapper + .filter-wrapper{
+.container .filter-wrapper+.filter-wrapper {
     margin-top: 18px;
 }
 
 /* 실적조건 ↔ 카드그리드 */
-.container .filter-wrapper:last-of-type{
-    margin-bottom: 64px;
+.container .filter-wrapper:last-of-type {
+    margin-bottom: 80px;
 }
 
 
@@ -201,6 +202,8 @@ header {
     display: flex;
     flex-direction: column;
     box-shadow: var(--shadow-soft);
+    position: relative;
+    /* 태그 고정을 위한 기준 */
 }
 
 .benefit-card:hover {
@@ -211,7 +214,8 @@ header {
 
 .card-img-wrapper {
     width: 100%;
-    height: 190px;
+    height: 180px;
+    /* 모바일 대응을 위해 살짝 줄임 */
     background: #FAFAFA;
     display: flex;
     justify-content: center;
@@ -234,10 +238,22 @@ header {
 }
 
 .card-content {
-    padding: 30px;
+    padding: 25px 30px 70px;
+    /* 하단에 태그 공간(70px) 확보 */
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+/* 실적 태그 고정 위치 (좌측 최하단) */
+.requirement-tags {
+    position: absolute;
+    bottom: 18px;
+    left: 22px;
+    display: flex;
+    gap: 8px;
+    pointer-events: none;
+    /* 클릭 방해 금지 */
 }
 
 .card-type {
@@ -359,9 +375,26 @@ header {
 }
 
 .modal-title {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: 1.6rem;
+    font-weight: 800;
     color: var(--text-main);
+    margin-bottom: 30px;
+    padding-bottom: 25px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    /* 제목과 내용 구분선 */
+    position: relative;
+}
+
+.modal-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 10px;
 }
 
 .close-modal {
@@ -391,22 +424,40 @@ header {
     .modal-content img {
         max-height: 350px;
     }
+
+    /* 모바일에서는 패딩만 소폭 조정 */
+    .benefit-card {
+        padding-bottom: 60px;
+    }
 }
 
 
 /* === Modal 상세 내용 리스트/출처 버튼 보강 === */
-.modal-limits-list{
-    margin-top: 18px;
-    text-align: left;
-    padding-left: 22px;
+.modal-limits h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    background: rgba(229, 9, 20, 0.05);
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
 }
-.modal-limits-list li{
+
+.modal-limits-list {
+    margin-top: 10px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+.modal-limits-list li {
     margin: 8px 0;
     color: var(--text-muted);
     font-size: 0.98rem;
     line-height: 1.65;
 }
-.modal-source-link{
+
+.modal-source-link {
     display: inline-block;
     margin-top: 18px;
     padding: 10px 18px;
@@ -417,13 +468,16 @@ header {
     font-weight: 600;
     transition: var(--transition);
 }
-.modal-source-link:hover{
+
+.modal-source-link:hover {
     transform: translateY(-2px);
     box-shadow: 0 10px 25px rgba(255, 107, 107, 0.25);
 }
 
 /* 기존 탭(.tab-btn/.issuer-tabs) 호환용: 혹시 남아있다면 동일 스타일 적용 */
-.issuer-tabs{display:none;}
+.issuer-tabs {
+    display: none;
+}
 
 
 /* =============================== */
@@ -458,116 +512,122 @@ body.modal-open {
 
 
 /* Header helpers */
-.clickable { cursor: pointer; }
+.clickable {
+    cursor: pointer;
+}
 
-.version-badge{
-  font-size: 0.5em;
-  border: 1.5px solid var(--primary-color);
-  color: var(--primary-color);
-  padding: 2px 10px;
-  border-radius: 20px;
-  margin-left: 10px;
-  font-weight: 600;
-  font-family: 'Noto Sans KR';
-  vertical-align: middle;
-  display: inline-block;
+.version-badge {
+    font-size: 0.5em;
+    border: 1.5px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 2px 10px;
+    border-radius: 20px;
+    margin-left: 10px;
+    font-weight: 600;
+    font-family: 'Noto Sans KR';
+    vertical-align: middle;
+    display: inline-block;
 }
 
 
 /* ========================= */
 /* 실적 필터 버튼 색상 강화 */
 /* ========================= */
-.requirement-btn{
-  border: 1px solid rgba(0,0,0,0.1);
-  background: #fff;
-  padding: 10px 18px;
-  border-radius: 30px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+.requirement-btn {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
 }
 
-.requirement-btn.active[data-requirement="none"]{
-  background: rgba(0, 180, 100, 0.15);
-  border-color: rgba(0, 180, 100, 0.4);
-  color: #00995e;
+.requirement-btn.active[data-requirement="none"] {
+    background: rgba(0, 180, 100, 0.15);
+    border-color: rgba(0, 180, 100, 0.4);
+    color: #00995e;
 }
 
-.requirement-btn.active[data-requirement="30"]{
-  background: rgba(255, 170, 0, 0.18);
-  border-color: rgba(255, 170, 0, 0.5);
-  color: #cc8400;
+.requirement-btn.active[data-requirement="30"] {
+    background: rgba(255, 170, 0, 0.18);
+    border-color: rgba(255, 170, 0, 0.5);
+    color: #cc8400;
 }
 
-.requirement-btn.active[data-requirement="50"]{
-  background: rgba(0, 150, 255, 0.18);
-  border-color: rgba(0, 150, 255, 0.5);
-  color: #0066cc;
+.requirement-btn.active[data-requirement="50"] {
+    background: rgba(0, 150, 255, 0.18);
+    border-color: rgba(0, 150, 255, 0.5);
+    color: #0066cc;
 }
 
-.requirement-btn.active[data-requirement="all"]{
-  background: rgba(229, 9, 20, 0.15);
-  border-color: rgba(229, 9, 20, 0.4);
-  color: var(--primary-color);
+.requirement-btn.active[data-requirement="all"] {
+    background: rgba(229, 9, 20, 0.15);
+    border-color: rgba(229, 9, 20, 0.4);
+    color: var(--primary-color);
 }
 
 /* =============================== */
 /* 카드 실적 태그 색상 동기화      */
 /* =============================== */
-.tag{
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-  border: 1px solid transparent;
+.tag {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid transparent;
 }
 
-.tag-none{
-  background: rgba(0, 180, 100, 0.15);
-  border-color: rgba(0, 180, 100, 0.4);
-  color: #00995e;
+.tag-none {
+    background: rgba(0, 180, 100, 0.15);
+    border-color: rgba(0, 180, 100, 0.4);
+    color: #00995e;
 }
-.tag-30{
-  background: rgba(255, 170, 0, 0.18);
-  border-color: rgba(255, 170, 0, 0.5);
-  color: #cc8400;
+
+.tag-30 {
+    background: rgba(255, 170, 0, 0.18);
+    border-color: rgba(255, 170, 0, 0.5);
+    color: #cc8400;
 }
-.tag-50{
-  background: rgba(0, 150, 255, 0.18);
-  border-color: rgba(0, 150, 255, 0.5);
-  color: #0066cc;
+
+.tag-50 {
+    background: rgba(0, 150, 255, 0.18);
+    border-color: rgba(0, 150, 255, 0.5);
+    color: #0066cc;
 }
 
 
 /* ============================= */
 /* Modal: 고정 크기 + 가로/세로 스크롤 */
 /* ============================= */
-.modal-content{
+.modal-content {
     width: 900px;
     height: 620px;
     max-width: 95vw;
     max-height: 90vh;
 
-    overflow: auto; /* 가로 + 세로 스크롤 */
+    overflow: auto;
+    /* 가로 + 세로 스크롤 */
     box-sizing: border-box;
 }
 
 /* 모달 이미지 영역이 커져도 레이아웃이 유지되도록 */
-.modal-content img{
+.modal-content img {
     max-height: 260px;
     object-fit: contain;
 }
 
 /* 스크롤바 (Chrome) */
-.modal-content::-webkit-scrollbar{
+.modal-content::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-.modal-content::-webkit-scrollbar-thumb{
+
+.modal-content::-webkit-scrollbar-thumb {
     background: rgba(255, 107, 107, 0.55);
     border-radius: 10px;
 }
-.modal-content::-webkit-scrollbar-track{
+
+.modal-content::-webkit-scrollbar-track {
     background: transparent;
 }
-

@@ -24,32 +24,34 @@
         </header>
 
         <!-- 카드사 필터 탭 -->
-        
-    <div class="filter-wrapper">
-        <div class="filter-group">
-            <div class="group-label">FILTER</div>
-            <div class="filter-container" id="issuerButtons">
-                <button type="button" class="filter-btn active" data-issuer="all">전체</button>
-                <button type="button" class="filter-btn" data-issuer="lotte">롯데</button>
-                <button type="button" class="filter-btn" data-issuer="kb">KB국민</button>
-                <button type="button" class="filter-btn" data-issuer="samsung">삼성</button>
-                <button type="button" class="filter-btn" data-issuer="shinhan">신한</button>
-                <button type="button" class="filter-btn" data-issuer="hyundai">현대</button>
-                <button type="button" class="filter-btn" data-issuer="woori">우리</button>
-                <button type="button" class="filter-btn" data-issuer="hana">하나</button>
-                <button type="button" class="filter-btn" data-issuer="ib">IBK기업</button>
-                <button type="button" class="filter-btn" data-issuer="nh">NH농협</button>
+
+        <div class="filter-wrapper">
+            <div class="filter-group">
+                <div class="group-label">FILTER</div>
+                <div class="filter-container" id="issuerButtons">
+                    <button type="button" class="filter-btn active" data-issuer="all">전체</button>
+                    <button type="button" class="filter-btn" data-issuer="lotte">롯데</button>
+                    <button type="button" class="filter-btn" data-issuer="kb">KB국민</button>
+                    <button type="button" class="filter-btn" data-issuer="samsung">삼성</button>
+                    <button type="button" class="filter-btn" data-issuer="shinhan">신한</button>
+                    <button type="button" class="filter-btn" data-issuer="hyundai">현대</button>
+                    <button type="button" class="filter-btn" data-issuer="woori">우리</button>
+                    <button type="button" class="filter-btn" data-issuer="hana">하나</button>
+                    <button type="button" class="filter-btn" data-issuer="ib">IBK기업</button>
+                    <button type="button" class="filter-btn" data-issuer="nh">NH농협</button>
+                </div>
             </div>
         </div>
-    </div>
 
-        <div class="filter-group">
-            <div class="group-label">실적 조건</div>
-            <div class="filter-container" id="requirementButtons">
-                <button type="button" class="requirement-btn active" data-requirement="all">전체</button>
-                <button type="button" class="requirement-btn" data-requirement="none">실적 제한 없음</button>
-                <button type="button" class="requirement-btn" data-requirement="30">30만원 이상</button>
-                <button type="button" class="requirement-btn" data-requirement="50">50만원 이상</button>
+        <div class="filter-wrapper">
+            <div class="filter-group">
+                <div class="group-label">실적 조건</div>
+                <div class="filter-container" id="requirementButtons">
+                    <button type="button" class="requirement-btn active" data-requirement="all">전체</button>
+                    <button type="button" class="requirement-btn" data-requirement="none">실적 제한 없음</button>
+                    <button type="button" class="requirement-btn" data-requirement="30">30만원 이상</button>
+                    <button type="button" class="requirement-btn" data-requirement="50">50만원 이상</button>
+                </div>
             </div>
         </div>
 
@@ -60,7 +62,7 @@
         </section>
     </div>
 
-    
+
     <!-- 이미지 모달 -->
     <div id="imageModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal-content">
@@ -71,13 +73,14 @@
             <section class="modal-limits" id="modalLimitsSection">
                 <h3>상세 내용</h3>
                 <ul id="modalLimitsList" class="modal-limits-list"></ul>
-                <a id="modalSourceLink" class="modal-source-link" href="#" target="_blank" rel="noopener noreferrer">출처 보기</a>
+                <a id="modalSourceLink" class="modal-source-link" href="#" target="_blank" rel="noopener noreferrer">출처
+                    보기</a>
             </section>
         </div>
     </div>
 
 
-<script defer src="limits_data.js"></script> <!-- 추가 -->
+    <script defer src="limits_data.js"></script> <!-- 추가 -->
     <script defer src="cinema_details.js"></script>
     <script defer src="script.js"></script>
 </body>
