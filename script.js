@@ -1022,7 +1022,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const modal = document.getElementById('imageModal');
   const modalImg = document.getElementById('modalImg');
   const modalTitle = document.getElementById('modalTitle');
-  const modalBenefitsList = document.getElementById('modalBenefitsList');
   const modalLimitsList = document.getElementById('modalLimitsList');
   const modalSourceLink = document.getElementById('modalSourceLink');
   const closeModal = document.querySelector('.close-modal');
@@ -1173,13 +1172,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       cardEl.addEventListener('click', () => {
         modalTitle.textContent = card.title;
         modalImg.src = imgUrl;
-
-        // ✅ 좌측: 영화관 혜택(이 페이지에서 관리)
-        modalBenefitsList.innerHTML = '';
-        const bLi = document.createElement('li');
-        bLi.textContent = (card.value || card.desc || '').trim();
-        modalBenefitsList.appendChild(bLi);
-
         // ✅ 우측: 상세 이용 제한(출처 '영화 섹션'만 수동 관리)
         // cinema_details.js에 카드 id별로 배열을 넣어두면 그대로 표시됩니다.
         const detailsMap = (typeof cinema_details !== 'undefined') ? cinema_details : {};
@@ -1194,7 +1186,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           });
         } else {
           const li = document.createElement('li');
-          li.textContent = '수동 영화 섹션 상세내용이 아직 등록되지 않았습니다.';
+          li.textContent = '상세 내용이 아직 등록되지 않았습니다.';
           modalLimitsList.appendChild(li);
         }
 
