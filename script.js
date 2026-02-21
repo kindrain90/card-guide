@@ -1235,7 +1235,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // 너무 노이즈가 많은 문구(단, 영화 섹션 컨텍스트에서 '조건'이면 예외로 통과)
                 const noisyBoilerplate = [
                     '신규 회원', '최대 100% 지급', '금융상품', '상품설명서', '약관', '신용평점', '연체이자율', '법정 최고금리', '단기카드대출', '장기카드대출',
-                    '현금서비스', '카드론', '연회비', '수수료', '이자', '발급', '출시일', '※', '*'
+                    '현금서비스', '카드론', '연회비', '수수료', '이자', '발급', '출시일'
                 ];
 
                 function isMovieLine(t) {
@@ -1292,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             if ((t.includes('부가혜택') || t.includes('통합할인')) && !isConditionLine(t)) continue;
 
                             // 영화 섹션에서는 혜택 안내(예: [혜택 안내])도 살림
-                            const keep = isConditionLine(t) || t.startsWith('[') || t.startsWith('-') || t.startsWith('•') || tail > 0;
+                            const keep = isConditionLine(t) || t.startsWith('[') || t.startsWith('-') || t.startsWith('•') || t.startsWith('※') || tail > 0;
 
                             if (keep && t.length <= 220) out.push(t);
 
