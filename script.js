@@ -975,7 +975,7 @@ const benefitData = [
         "monthlyRequirement": "50"
     },
     {
-        "issuer": "unknown",
+        "issuer": "ib",
         "id": 1340,
         "monthlyRequirement": "30",
         "category": "credit",
@@ -1018,17 +1018,17 @@ const benefitData = [
 document.addEventListener('DOMContentLoaded', async () => {
     let currentIssuer = 'all';
     let currentRequirement = 'all';
-  const cardGrid = document.getElementById('cardGrid');
+    const cardGrid = document.getElementById('cardGrid');
 
-  // 모달 요소
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('modalImg');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalLimitsList = document.getElementById('modalLimitsList');
-  const modalSourceLink = document.getElementById('modalSourceLink');
-  const closeModal = document.querySelector('.close-modal');
+    // 모달 요소
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalLimitsList = document.getElementById('modalLimitsList');
+    const modalSourceLink = document.getElementById('modalSourceLink');
+    const closeModal = document.querySelector('.close-modal');
 
-  const tabButtons = document.querySelectorAll('.filter-btn');
+    const tabButtons = document.querySelectorAll('.filter-btn');
 
 
     // ✅ 로고 클릭 시: 홈(전체 필터)로 복귀 + 상단으로 이동
@@ -1043,7 +1043,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // 카드 다시 렌더링
             renderCards('all');
 
-            
+
             // 실적 버튼도 전체로 초기화
             const reqButtons = document.querySelectorAll('.requirement-btn');
             reqButtons.forEach(b => b.classList.remove('active'));
@@ -1052,27 +1052,27 @@ document.addEventListener('DOMContentLoaded', async () => {
             currentRequirement = 'all';
 
             renderCards('all', 'all');
-        // 상단으로 스크롤
+            // 상단으로 스크롤
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-  // 제한사항 데이터(출처 링크용)
-  let limitsMap = (typeof limits_data !== 'undefined') ? limits_data : {};
+    // 제한사항 데이터(출처 링크용)
+    let limitsMap = (typeof limits_data !== 'undefined') ? limits_data : {};
 
-  // (선택) json 병합은 유지
-  try {
-    const res = await fetch('./limits.json', { cache: 'no-cache' });
-    if (res.ok) {
-      const fetchedMap = await res.json();
-      limitsMap = { ...limitsMap, ...fetchedMap };
-      console.log('limits.json 병합 완료');
+    // (선택) json 병합은 유지
+    try {
+        const res = await fetch('./limits.json', { cache: 'no-cache' });
+        if (res.ok) {
+            const fetchedMap = await res.json();
+            limitsMap = { ...limitsMap, ...fetchedMap };
+            console.log('limits.json 병합 완료');
+        }
+    } catch (e) {
+        console.log('limits.json fetch 생략 (로컬 데이터 사용)');
     }
-  } catch (e) {
-    console.log('limits.json fetch 생략 (로컬 데이터 사용)');
-  }
 
-  window.handleImageError = (img) => {
+    window.handleImageError = (img) => {
         // 1) URL 도메인 중복 정리
         if (img.src && img.src.startsWith('https://vertical.pstatic.nethttps://vertical.pstatic.net/')) {
             img.src = img.src.replace('https://vertical.pstatic.nethttps://vertical.pstatic.net/', 'https://vertical.pstatic.net/');
@@ -1098,61 +1098,61 @@ document.addEventListener('DOMContentLoaded', async () => {
         img.src = 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
     };
 
-  if (closeModal && modal) {
-    closeModal.addEventListener('click', () => {
-      modal.classList.remove('active');
-    });
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) modal.classList.remove('active');
-    });
-    window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && modal.classList.contains('active')) {
-        modal.classList.remove('active');
-      }
-    });
-  }
+    if (closeModal && modal) {
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.classList.remove('active');
+        });
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+            }
+        });
+    }
 
-  // 깨진 이미지 URL 정규화
-  function normalizeImgUrl(url) {
-    if (!url) return url;
-    return url.replace(
-      /^https:\/\/vertical\.pstatic\.nethttps:\/\/vertical\.pstatic\.net\//,
-      'https://vertical.pstatic.net/'
-    );
-  }
+    // 깨진 이미지 URL 정규화
+    function normalizeImgUrl(url) {
+        if (!url) return url;
+        return url.replace(
+            /^https:\/\/vertical\.pstatic\.nethttps:\/\/vertical\.pstatic\.net\//,
+            'https://vertical.pstatic.net/'
+        );
+    }
 
-  // 한글 숫자(만/천/백/십) 복합 단위 변환
-  function convertKoreanToNumber(text) {
-    const unitMap = { 만: 10000, 천: 1000, 백: 100, 십: 10 };
+    // 한글 숫자(만/천/백/십) 복합 단위 변환
+    function convertKoreanToNumber(text) {
+        const unitMap = { 만: 10000, 천: 1000, 백: 100, 십: 10 };
 
-    let result = text.replace(/(\d+(?:만|천|백|십))+/g, (chunk) => {
-      let total = 0;
-      const re = /(\d+)(만|천|백|십)/g;
-      let m;
-      while ((m = re.exec(chunk)) !== null) {
-        total += parseInt(m[1], 10) * unitMap[m[2]];
-      }
-      return total.toLocaleString();
-    });
+        let result = text.replace(/(\d+(?:만|천|백|십))+/g, (chunk) => {
+            let total = 0;
+            const re = /(\d+)(만|천|백|십)/g;
+            let m;
+            while ((m = re.exec(chunk)) !== null) {
+                total += parseInt(m[1], 10) * unitMap[m[2]];
+            }
+            return total.toLocaleString();
+        });
 
-    result = result.replace(
-      /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(청구할인|현금캐시백|포인트적립|현장할인)/g,
-      '$1원 $2'
-    );
+        result = result.replace(
+            /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(청구할인|현금캐시백|포인트적립|현장할인)/g,
+            '$1원 $2'
+        );
 
-    result = result.replace(
-      /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(결제시)/g,
-      '$1원 $2'
-    );
+        result = result.replace(
+            /(\d{1,3}(?:,\d{3})*)(?:원)?\s*(결제시)/g,
+            '$1원 $2'
+        );
 
-    return result;
-  }
+        return result;
+    }
 
-  function renderCards(issuerFilter = 'all', requirementFilter = 'all') {
-    cardGrid.innerHTML = '';
-    const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
+    function renderCards(issuerFilter = 'all', requirementFilter = 'all') {
+        cardGrid.innerHTML = '';
+        const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
 
-    let filteredData = benefitData;
+        let filteredData = benefitData;
 
         // ✅ 카드사 필터
         if (issuerFilter !== 'all') {
@@ -1167,45 +1167,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         }
 
-    const sortedData = [...filteredData].sort((a, b) =>
-      (categoryPriority[a.category] - categoryPriority[b.category]) || (b.sortValue - a.sortValue)
-    );
+        const sortedData = [...filteredData].sort((a, b) =>
+            (categoryPriority[a.category] - categoryPriority[b.category]) || (b.sortValue - a.sortValue)
+        );
 
-    if (sortedData.length === 0) {
-      cardGrid.innerHTML = '<div class="no-results">표시할 할인 정보가 없습니다.</div>';
-      return;
-    }
+        if (sortedData.length === 0) {
+            cardGrid.innerHTML = '<div class="no-results">표시할 할인 정보가 없습니다.</div>';
+            return;
+        }
 
-    sortedData.forEach((card, index) => {
-      const cardEl = document.createElement('div');
-      cardEl.className = 'benefit-card';
-      cardEl.style.animationDelay = `${index * 0.02}s`;
+        sortedData.forEach((card, index) => {
+            const cardEl = document.createElement('div');
+            cardEl.className = 'benefit-card';
+            cardEl.style.animationDelay = `${index * 0.02}s`;
 
-      const imgUrl = normalizeImgUrl(card.img);
+            const imgUrl = normalizeImgUrl(card.img);
 
-      let cleanValue = (card.value || '')
-        .replace(/롯데시네마에서\s*/g, '')
-        .replace(/롯데시네마\s*/g, '')
-        .replace(/원\s+결제시/g, '결제시')
-        .trim();
+            let cleanValue = (card.value || '')
+                .replace(/롯데시네마에서\s*/g, '')
+                .replace(/롯데시네마\s*/g, '')
+                .replace(/원\s+결제시/g, '결제시')
+                .trim();
 
-      cleanValue = convertKoreanToNumber(cleanValue);
+            cleanValue = convertKoreanToNumber(cleanValue);
 
-      const issuerNames = {
+            const issuerNames = {
                 'ib': 'IBK기업은행',
-        'lotte': '롯데카드',
-        'kb': 'KB국민카드',
-        'samsung': '삼성카드',
-        'shinhan': '신한카드',
-        'hyundai': '현대카드',
-        'woori': '우리카드',
-        'hana': '하나카드',
-        'nh': 'NH농협카드'
-      };
-      const issuerName = issuerNames[card.issuer] || '신용/체크';
+                'lotte': '롯데카드',
+                'kb': 'KB국민카드',
+                'samsung': '삼성카드',
+                'shinhan': '신한카드',
+                'hyundai': '현대카드',
+                'woori': '우리카드',
+                'hana': '하나카드',
+                'nh': 'NH농협카드'
+            };
+            const issuerName = issuerNames[card.issuer] || '신용/체크';
 
-      let requirementTag = '';
-      if (card.monthlyRequirement === '30') {
+            let requirementTag = '';
+            if (card.monthlyRequirement === '30') {
                 requirementTag = '<span class="tag tag-30">#전월 실적 30만원 이상</span>';
             } else if (card.monthlyRequirement === '50') {
                 requirementTag = '<span class="tag tag-50">#전월 실적 50만원 이상</span>';
@@ -1213,7 +1213,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 requirementTag = '<span class="tag tag-none">#실적 제한 없음</span>';
             }
 
-      cardEl.innerHTML = `
+            cardEl.innerHTML = `
         <div class="card-img-wrapper">
           <img src="${imgUrl}" alt="${card.title}" onerror="handleImageError(this)" referrerpolicy="no-referrer">
         </div>
@@ -1229,56 +1229,56 @@ document.addEventListener('DOMContentLoaded', async () => {
         </div>
       `;
 
-      cardEl.style.cursor = 'pointer';
-      cardEl.addEventListener('click', () => {
-        modalTitle.textContent = card.title;
-        modalImg.src = imgUrl;
-        // ✅ 우측: 상세 이용 제한(출처 '영화 섹션'만 수동 관리)
-        // cinema_details.js에 카드 id별로 배열을 넣어두면 그대로 표시됩니다.
-        const detailsMap = (typeof cinema_details !== 'undefined') ? cinema_details : {};
-        const details = detailsMap[String(card.id)] || [];
+            cardEl.style.cursor = 'pointer';
+            cardEl.addEventListener('click', () => {
+                modalTitle.textContent = card.title;
+                modalImg.src = imgUrl;
+                // ✅ 우측: 상세 이용 제한(출처 '영화 섹션'만 수동 관리)
+                // cinema_details.js에 카드 id별로 배열을 넣어두면 그대로 표시됩니다.
+                const detailsMap = (typeof cinema_details !== 'undefined') ? cinema_details : {};
+                const details = detailsMap[String(card.id)] || [];
 
-        modalLimitsList.innerHTML = '';
-        if (details.length > 0) {
-          details.forEach(line => {
-            const li = document.createElement('li');
-            li.textContent = line;
-            modalLimitsList.appendChild(li);
-          });
-        } else {
-          const li = document.createElement('li');
-          li.textContent = '상세 내용이 아직 등록되지 않았습니다.';
-          modalLimitsList.appendChild(li);
-        }
+                modalLimitsList.innerHTML = '';
+                if (details.length > 0) {
+                    details.forEach(line => {
+                        const li = document.createElement('li');
+                        li.textContent = line;
+                        modalLimitsList.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.textContent = '상세 내용이 아직 등록되지 않았습니다.';
+                    modalLimitsList.appendChild(li);
+                }
 
-        // 출처 링크(있으면 표시)
-        const record = limitsMap[String(card.id)];
-        if (record && record.sourceUrl) {
-          modalSourceLink.href = record.sourceUrl;
-          modalSourceLink.style.display = 'inline-block';
-        } else {
-          // fallback: 네이버 카드검색 형태(원치 않으면 제거해도 됨)
-          modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
-          modalSourceLink.style.display = 'inline-block';
-        }
+                // 출처 링크(있으면 표시)
+                const record = limitsMap[String(card.id)];
+                if (record && record.sourceUrl) {
+                    modalSourceLink.href = record.sourceUrl;
+                    modalSourceLink.style.display = 'inline-block';
+                } else {
+                    // fallback: 네이버 카드검색 형태(원치 않으면 제거해도 됨)
+                    modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
+                    modalSourceLink.style.display = 'inline-block';
+                }
 
-        modal.classList.add('active');
-      });
+                modal.classList.add('active');
+            });
 
-      cardGrid.appendChild(cardEl);
+            cardGrid.appendChild(cardEl);
+        });
+    }
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const selectedIssuer = btn.getAttribute('data-issuer');
+            renderCards(selectedIssuer, currentRequirement);
+        });
     });
-  }
 
-  tabButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabButtons.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const selectedIssuer = btn.getAttribute('data-issuer');
-      renderCards(selectedIssuer, currentRequirement);
-    });
-  });
-
-  // ✅ 실적 버튼 이벤트
+    // ✅ 실적 버튼 이벤트
     const requirementButtons = document.querySelectorAll('.requirement-btn');
     requirementButtons.forEach(btn => {
         btn.addEventListener('click', () => {
