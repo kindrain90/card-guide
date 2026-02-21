@@ -1048,8 +1048,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     let currentIssuer = 'all'; // 현재 선택된 카드사
 
-    // 로컬 데이터 변수 확인 및 할당 (CORS 방지용 JS 파일 연동)
-    const localCardallData = (typeof cardall_data !== 'undefined') ? cardall_data : [];
+    // 연회비/부가정보(cardall_data)는 사용하지 않음 (요청사항: 연회비 제거)
 
     window.handleImageError = (img) => {
         img.onerror = null;
