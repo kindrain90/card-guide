@@ -1116,11 +1116,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     return result;
   }
 
-  function renderCards(issuerFilter = 'all') {
+  function renderCards(issuerFilter = 'all', requirementFilter = 'all') {
     cardGrid.innerHTML = '';
     const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
 
     let filteredData = benefitData;
+
+        if (requirementFilter !== 'all') {
+            filteredData = filteredData.filter(card => {
+                if (requirementFilter === 'none') return card.monthlyRequirement === 'none';
+                return card.monthlyRequirement === requirementFilter;
+            });
+        }
     if (issuerFilter !== 'all') {
       filteredData = benefitData.filter(card => card.issuer === issuerFilter);
     }
@@ -1232,9 +1239,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       tabButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const selectedIssuer = btn.getAttribute('data-issuer');
-      renderCards(selectedIssuer);
+      renderCards(selectedIssuer, currentRequirement);
     });
   });
 
-  renderCards();
+  
+    const requirementButtons = document.querySelectorAll('.requirement-btn');
+    requirementButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            requirementButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            currentRequirement = btn.getAttribute('data-requirement');
+            renderCards(currentIssuer, currentRequirement);
+        });
+    });
+
+    renderCards(currentIssuer, currentRequirement);
 });

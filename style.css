@@ -512,3 +512,37 @@ body.modal-open {
         height: 85vh;
     }
 }
+
+/* ========================= */
+/* 실적 필터 버튼 색상 강화 */
+/* ========================= */
+
+.requirement-btn {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    transition: all 0.2s ease;
+}
+
+.requirement-btn.active[data-requirement="none"] {
+    background: rgba(0, 180, 100, 0.15);
+    border-color: rgba(0, 180, 100, 0.4);
+    color: #00995e;
+}
+
+.requirement-btn.active[data-requirement="30"] {
+    background: rgba(255, 170, 0, 0.18);
+    border-color: rgba(255, 170, 0, 0.5);
+    color: #cc8400;
+}
+
+.requirement-btn.active[data-requirement="50"] {
+    background: rgba(0, 150, 255, 0.18);
+    border-color: rgba(0, 150, 255, 0.5);
+    color: #0066cc;
+}
+
+.requirement-btn.active[data-requirement="all"] {
+    background: rgba(229, 9, 20, 0.15);
+    border-color: rgba(229, 9, 20, 0.4);
+    color: var(--primary-color);
+}
