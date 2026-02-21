@@ -983,7 +983,7 @@ const benefitData = [
         "label": "Lotte Cinema",
         "value": "롯데시네마 1만원 결제시 최대 8천원 청구할인",
         "desc": "롯데시네마 1만원 결제시 최대 8천원 청구할인",
-        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB_1340_hor.png",
+        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB/1340/IB_1340_hor.png",
         "sortValue": 100,
         "title": "참! 좋은 kt wiz 카드"
     },
@@ -996,7 +996,7 @@ const benefitData = [
         "label": "Lotte Cinema",
         "value": "롯데시네마 1만원 결제시 최대 4천원 청구할인",
         "desc": "롯데시네마 1만원 결제시 최대 4천원 청구할인",
-        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB_1889_hor.png",
+        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB/1889/IB_1889_hor.png",
         "sortValue": 100,
         "title": "기업은행 참! 좋은 다이소카드"
     },
@@ -1009,7 +1009,7 @@ const benefitData = [
         "label": "Lotte Cinema",
         "value": "롯데시네마 1만원 결제시 최대 4천원 청구할인",
         "desc": "롯데시네마 1만원 결제시 최대 4천원 청구할인",
-        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB_1573_hor.png",
+        "img": "https://vertical.pstatic.nethttps://vertical.pstatic.net/vertical-cardad/creatives/IB/1573/IB_1573_hor.png",
         "sortValue": 100,
         "title": "기업은행 용인시민카드"
     }
