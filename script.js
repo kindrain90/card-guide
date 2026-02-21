@@ -1041,9 +1041,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (allBtn) allBtn.classList.add('active');
 
             // 카드 다시 렌더링
-            renderCards('all');
-
-
+            currentIssuer = 'all';
+            renderCards('all', 'all');
             // 실적 버튼도 전체로 초기화
             const reqButtons = document.querySelectorAll('.requirement-btn');
             reqButtons.forEach(b => b.classList.remove('active'));
