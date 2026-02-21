@@ -564,3 +564,35 @@ header {
         font-size: 1.1rem;
     }
 }
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 14px;
+}
+
+@media (max-width: 820px) {
+    .modal-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.modal-benefits,
+.modal-limits {
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.modal-benefits-list,
+.modal-limits-list {
+    margin: 10px 0 0;
+    padding-left: 18px;
+}
+
+.modal-benefits-list li,
+.modal-limits-list li {
+    line-height: 1.5;
+    margin: 6px 0;
+}
