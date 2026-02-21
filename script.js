@@ -8,7 +8,7 @@ const benefitData = [
         "value": "롯데시네마 0.7% 현금캐시백",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10304/LO_10304_20231114-020043_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10304/LO_10304_20231114-020043_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -21,7 +21,7 @@ const benefitData = [
         "value": "롯데시네마 1만원 결제시 최대 3천원 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10157/SS_10157_20230103-181148_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10157/SS_10157_20230103-181148_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -34,7 +34,7 @@ const benefitData = [
         "value": "롯데시네마 1만원 결제시 최대 5천원 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/1530/SS_1530_20241101-100614_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/1530/SS_1530_20241101-100614_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -47,7 +47,7 @@ const benefitData = [
         "value": "롯데시네마 최대 40% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/KB/10216/KB_10216_20250801-081714_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/KB/10216/KB_10216_20250801-081714_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -60,7 +60,7 @@ const benefitData = [
         "value": "롯데시네마 1.5% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10105/LO_10105_20211111-160041_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10105/LO_10105_20211111-160041_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -164,7 +164,7 @@ const benefitData = [
         "value": "롯데시네마 1천원 결제시 최대 1마일 적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/1465/SS_1465_20250502-160748_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/1465/SS_1465_20250502-160748_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -203,7 +203,7 @@ const benefitData = [
         "value": "롯데시네마 0.7% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10303/LO_10303_20231114-004652_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10303/LO_10303_20231114-004652_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -216,7 +216,7 @@ const benefitData = [
         "value": "롯데시네마 최대 2% 포인트적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10311/SS_10311_20231213-104200_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10311/SS_10311_20231213-104200_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -242,7 +242,7 @@ const benefitData = [
         "value": "롯데시네마 최대 60% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10108/LO_10108_20211111-182305_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10108/LO_10108_20211111-182305_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -281,7 +281,7 @@ const benefitData = [
         "value": "롯데시네마 최대 50% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10071/LO_10071_20210802-162442_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10071/LO_10071_20210802-162442_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -320,7 +320,7 @@ const benefitData = [
         "value": "롯데시네마 1.2% 포인트적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10323/HD_10323_20250212-112405_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10323/HD_10323_20250212-112405_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -346,7 +346,7 @@ const benefitData = [
         "value": "롯데시네마 0.8% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10322/HD_10322_20250212-112347_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10322/HD_10322_20250212-112347_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -385,7 +385,7 @@ const benefitData = [
         "value": "롯데시네마 0.2% 포인트적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10317/LO_10317_20240110-202003_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10317/LO_10317_20240110-202003_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -411,7 +411,7 @@ const benefitData = [
         "value": "롯데시네마 1만원 결제시 최대 10% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/KB/10267/KB_10267_20240424-101143_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/KB/10267/KB_10267_20240424-101143_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -710,7 +710,7 @@ const benefitData = [
         "value": "롯데시네마 최대 5천원 현장할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SH/2337/SH_2337_20240105-105602_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SH/2337/SH_2337_20240105-105602_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -814,7 +814,7 @@ const benefitData = [
         "value": "롯데시네마 원 결제시 최대 7% 포인트적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SH/3816/SH_3816_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SH/3816/SH_3816_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -840,7 +840,7 @@ const benefitData = [
         "value": "롯데시네마 최대 1% 포인트적립",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10325/HD_10325_20240229-101701_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/HD/10325/HD_10325_20240229-101701_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -879,7 +879,7 @@ const benefitData = [
         "value": "롯데시네마 최대 1% 현금캐시백",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10306/LO_10306_20231114-163944_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10306/LO_10306_20231114-163944_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
     },
@@ -905,7 +905,7 @@ const benefitData = [
         "value": "롯데시네마 최대 5천원 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10237/SS_10237_20230302-201230_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/SS/10237/SS_10237_20230302-201230_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "50"
     },
@@ -931,7 +931,7 @@ const benefitData = [
         "value": "롯데시네마 최대 1% 청구할인",
         "label": "롯데시네마",
         "tags": [],
-        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10305/LO_10305_20231114-025827_ver.png",
+        "img": "https://vertical.pstatic.net/vertical-cardad/creatives/LO/10305/LO_10305_20231114-025827_hor.png",
         "sortValue": 100,
         "monthlyRequirement": "30"
     },
@@ -1016,6 +1016,8 @@ const benefitData = [
 ];
 
 document.addEventListener('DOMContentLoaded', async () => {
+    let currentIssuer = 'all';
+    let currentRequirement = 'all';
   const cardGrid = document.getElementById('cardGrid');
 
   // 모달 요소
@@ -1041,7 +1043,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             // 카드 다시 렌더링
             renderCards('all');
 
-            // 상단으로 스크롤
+            
+            // 실적 버튼도 전체로 초기화
+            const reqButtons = document.querySelectorAll('.requirement-btn');
+            reqButtons.forEach(b => b.classList.remove('active'));
+            const reqAllBtn = document.querySelector('.requirement-btn[data-requirement="all"]');
+            if (reqAllBtn) reqAllBtn.classList.add('active');
+            currentRequirement = 'all';
+
+            renderCards('all', 'all');
+        // 상단으로 스크롤
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
@@ -1121,13 +1132,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const categoryPriority = { 'credit': 1, 'telecom': 2, 'membership': 3 };
 
     let filteredData = benefitData;
-
-        if (requirementFilter !== 'all') {
-            filteredData = filteredData.filter(card => {
-                if (requirementFilter === 'none') return card.monthlyRequirement === 'none';
-                return card.monthlyRequirement === requirementFilter;
-            });
-        }
     if (issuerFilter !== 'all') {
       filteredData = benefitData.filter(card => card.issuer === issuerFilter);
     }
@@ -1171,12 +1175,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       let requirementTag = '';
       if (card.monthlyRequirement === '30') {
-        requirementTag = '<span class="tag">#전월 실적 30만원 이상</span>';
-      } else if (card.monthlyRequirement === '50') {
-        requirementTag = '<span class="tag">#전월 실적 50만원 이상</span>';
-      } else {
-        requirementTag = '<span class="tag">#실적 제한 없음</span>';
-      }
+                requirementTag = '<span class="tag tag-30">#전월 실적 30만원 이상</span>';
+            } else if (card.monthlyRequirement === '50') {
+                requirementTag = '<span class="tag tag-50">#전월 실적 50만원 이상</span>';
+            } else {
+                requirementTag = '<span class="tag tag-none">#실적 제한 없음</span>';
+            }
 
       cardEl.innerHTML = `
         <div class="card-img-wrapper">
@@ -1243,17 +1247,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  
-    const requirementButtons = document.querySelectorAll('.requirement-btn');
-    requirementButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            requirementButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            currentRequirement = btn.getAttribute('data-requirement');
-            renderCards(currentIssuer, currentRequirement);
-        });
-    });
-
-    renderCards(currentIssuer, currentRequirement);
+  renderCards(currentIssuer, currentRequirement);
 });
