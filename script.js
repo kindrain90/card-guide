@@ -1073,9 +1073,30 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   window.handleImageError = (img) => {
-    img.onerror = null;
-    img.src = 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
-  };
+        // 1) URL 도메인 중복 정리
+        if (img.src && img.src.startsWith('https://vertical.pstatic.nethttps://vertical.pstatic.net/')) {
+            img.src = img.src.replace('https://vertical.pstatic.nethttps://vertical.pstatic.net/', 'https://vertical.pstatic.net/');
+            return;
+        }
+
+        // 2) hor -> ver 폴백 (가로 이미지가 없는 경우)
+        if (!img.dataset.fallbackTried && img.src && img.src.includes('_hor.')) {
+            img.dataset.fallbackTried = '1';
+            img.src = img.src.replace('_hor.', '_ver.');
+            return;
+        }
+
+        // 3) ver -> hor 폴백 (선택)
+        if (!img.dataset.fallbackTried && img.src && img.src.includes('_ver.')) {
+            img.dataset.fallbackTried = '1';
+            img.src = img.src.replace('_ver.', '_hor.');
+            return;
+        }
+
+        // 4) 최종 플레이스홀더
+        img.onerror = null;
+        img.src = 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
+    };
 
   if (closeModal && modal) {
     closeModal.addEventListener('click', () => {
