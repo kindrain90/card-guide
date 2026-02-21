@@ -1217,59 +1217,112 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
 
 
-                // ✅ 영화 관련 혜택 및 상세 제약사항 필터링 (최대한 심플하게)
-                const coreMovieKeywords = ['영화', '시네마', 'Lotte Cinema', 'CGV', '메가박스', '티켓', '관람권'];
-                const supplementaryKeywords = ['회', '실적', '이용금액', '전월', '통합', '한도', '결제건', '결제일 할인'];
-                // 제외 키워드: 타 업종 및 각종 안내/유의사항/보일러플레이트 제외
-                const nonMovieKeywords = [
-                    '커피', '카페', '스타벅스', '편의점', '주유', '교통', '버스', '지하철', '택시', '통신', '쇼핑', '마트', '백화점', '외식', '배달', '음식점', '베이커리',
-                    '적립', '항공', '면세점', '보험', '학원', '병원', '동물병원', '포인트', '멤버십',
-                    '출시일자', '신용평점', '상품설명서', '약관', '금융상품', '신규 회원', '연회비', '발급', '카드사', '※', '*', '무이자', '할부', '대출', '이자율', '연체'
-                ];
-                const fallbackKeywords = ['모든 가맹점', '전 가맹점', '국내외 가맹점'];
-
-                // 1. 영화 관련 혜택이 하나라도 있는지 확인
-                const hasMovieBenefit = limits.some(text =>
-                    coreMovieKeywords.some(kw => text.includes(kw))
-                );
-
-                let filteredLimits = [];
-                if (hasMovieBenefit) {
-                    // 1. 일차적으로 키워드 기반 필터링
-                    const candidates = [];
-                    limits.forEach(text => {
-                        const trimmed = text.trim().replace(/\s+/g, ' '); // 공백 정규화
-                        if (!trimmed || trimmed.length > 80) return;
-
-                        const isCoreMovie = coreMovieKeywords.some(kw => trimmed.includes(kw));
-                        const isSupplementary = supplementaryKeywords.some(kw => trimmed.includes(kw));
-                        const isOtherMerchant = nonMovieKeywords.some(kw => trimmed.includes(kw));
-
-                        if (isCoreMovie || (isSupplementary && !isOtherMerchant)) {
-                            candidates.push(trimmed);
-                        }
-                    });
-
-                    // 2. 중복 제거 (부분 일치 포함)
-                    // 내용이 겹치는 경우 가장 긴 문장만 남김 (예: "월 1회" vs "통합 월 1회" 중 후자 선택)
-                    candidates.sort((a, b) => b.length - a.length); // 긴 문장부터 검사
-                    const finalSelection = [];
-                    candidates.forEach(cand => {
-                        const isRedundant = finalSelection.some(selected =>
-                            selected.replace(/\s/g, '').includes(cand.replace(/\s/g, ''))
-                        );
-                        if (!isRedundant) {
-                            finalSelection.push(cand);
-                        }
-                    });
-
-                    // 다시 원래 노출 순서(위치 기반)와 유사하게 보이도록 정렬하거나, 깔끔하게 표시
-                    filteredLimits = finalSelection;
-                } else {
-                    // 영화 혜택이 아예 없는 경우에만 '모든 가맹점' 혜택 1문장만 표시
-                    const fallback = limits.find(text => fallbackKeywords.some(kw => text.includes(kw)));
-                    if (fallback) filteredLimits = [fallback.trim()];
+                // ✅ 영화(영화관) 섹션만 '출처(제공사/포털) 상세'에서 뽑아서 우측(이용제한)에 노출
+                //    - 목표: '영화' 섹션의 혜택/안내/조건만 남기고, 타 업종/보일러플레이트는 최대한 제거
+                function normalizeLine(s) {
+                    return (s || '').toString().replace(/\s+/g, ' ').trim();
                 }
+                function startsWithAny(text, prefixes) {
+                    return prefixes.some(p => text.startsWith(p));
+                }
+                const movieKeywords = ['영화', '영화관', '롯데시네마', 'CGV', '메가박스', '시네마', '티켓', '관람권', 'Lotte Cinema'];
+                const conditionKeywords = ['전월', '실적', '이용금액', '한도', '횟수', '월', '연', '통합', '결제', '결제일', '할인', '적립', '캐시백', '포인트'];
+                // 다른 섹션(카테고리) 헤더로 자주 등장하는 접두어들
+                const nonMovieCategoryStarts = [
+                    '카페/베이커리', '카페', '커피', '편의점', '주유', '교통', '대중교통', '택시', '쇼핑', '대형마트', '백화점', '외식', '배달', '문화', '레저',
+                    '뷰티', '의료', '교육', '육아', '반려동물', '오토', '주차', '주차장', '세차', '세차장', '렌탈', '금융', '통신', '보험', '항공', '면세점'
+                ];
+                // 너무 노이즈가 많은 문구(단, 영화 섹션 컨텍스트에서 '조건'이면 예외로 통과)
+                const noisyBoilerplate = [
+                    '신규 회원', '최대 100% 지급', '금융상품', '상품설명서', '약관', '신용평점', '연체이자율', '법정 최고금리', '단기카드대출', '장기카드대출',
+                    '현금서비스', '카드론', '연회비', '수수료', '이자', '발급', '출시일', '※', '*'
+                ];
+
+                function isMovieLine(t) {
+                    // '영화' 섹션 헤더/혜택 라인 인식
+                    if (!t) return false;
+                    if (t === '영화') return true;
+                    // "영화영화관 ..." 같이 붙어있는 케이스도 고려
+                    return movieKeywords.some(k => t.includes(k));
+                }
+                function isNonMovieCategoryHeader(t) {
+                    // "카페/베이커리커피 ..." 같은 붙어있는 케이스는 startsWith로 컷
+                    return startsWithAny(t, nonMovieCategoryStarts);
+                }
+                function isConditionLine(t) {
+                    return conditionKeywords.some(k => t.includes(k));
+                }
+                function isTooNoisy(t) {
+                    return noisyBoilerplate.some(k => t.includes(k));
+                }
+
+                function extractMovieSection(lines) {
+                    const out = [];
+                    let inMovie = false;
+                    // 영화 라인 이후에 '조건/안내'가 이어지는 케이스를 위해 몇 줄 버퍼를 둠
+                    let tail = 0;
+
+                    for (const raw of (lines || [])) {
+                        const t = normalizeLine(raw);
+                        if (!t) continue;
+
+                        // 다른 카테고리 섹션 시작이면 영화 컨텍스트 종료
+                        if (inMovie && isNonMovieCategoryHeader(t) && !isMovieLine(t)) {
+                            inMovie = false;
+                            tail = 0;
+                            continue;
+                        }
+
+                        // 영화 섹션 시작/진입
+                        if (isMovieLine(t)) {
+                            inMovie = true;
+                            tail = 4;
+
+                            // 너무 긴 문자열은 UI 가독성 위해 컷(필요하면 늘리세요)
+                            if (t.length <= 220) out.push(t);
+                            continue;
+                        }
+
+                        // 영화 섹션 내부에서만 조건/안내 라인을 추가
+                        if (inMovie) {
+                            // 노이즈 문구는 기본적으로 제외하되, '조건 라인'이면 살림
+                            if (isTooNoisy(t) && !isConditionLine(t)) continue;
+
+                            // "부가혜택 및 통합할인한도" 같은 큰 덩어리 제목은 영화조건이 아니면 제외
+                            if ((t.includes('부가혜택') || t.includes('통합할인')) && !isConditionLine(t)) continue;
+
+                            // 영화 섹션에서는 혜택 안내(예: [혜택 안내])도 살림
+                            const keep = isConditionLine(t) || t.startsWith('[') || t.startsWith('-') || t.startsWith('•') || tail > 0;
+
+                            if (keep && t.length <= 220) out.push(t);
+
+                            if (tail > 0) tail -= 1;
+                        }
+                    }
+
+                    // 중복 제거(순서 유지)
+                    const seen = new Set();
+                    return out.filter(x => {
+                        const key = x.replace(/\s/g, '');
+                        if (seen.has(key)) return false;
+                        seen.add(key);
+                        return true;
+                    });
+                }
+
+                let filteredLimits = extractMovieSection(limits);
+
+                // fallback: 데이터에 영화 섹션이 거의 없을 때는 '영화 키워드' 포함 라인만이라도 노출
+                if (filteredLimits.length === 0) {
+                    filteredLimits = limits
+                        .map(normalizeLine)
+                        .filter(t => t && movieKeywords.some(k => t.includes(k)) && t.length <= 220);
+                }
+
+                if (filteredLimits.length === 0) {
+                    filteredLimits = ['해당 카드의 영화 관련 상세 내용이 없습니다.'];
+                }
+
 
                 // 리스트 초기화 후 추가
                 modalLimitsList.innerHTML = '';
