@@ -548,3 +548,13 @@ body.modal-open {
   gap: 6px !important;
 }
 
+
+/* ============================= */
+/* 실적 조건 필터가 .filter-wrapper 밖에 있을 때 간격 보정 */
+/* (현재 index.html 구조: .filter-wrapper 다음에 .filter-group이 바로 옴) */
+/* ============================= */
+.container .filter-wrapper + .filter-group{
+  margin-top: 14px !important;     /* FILTER ↔ 실적조건 간격(타이트) */
+  margin-bottom: 70px !important;  /* 실적조건 ↔ 카드 그리드 간격(넓게) */
+}
+
