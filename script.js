@@ -13,6 +13,19 @@ const benefitData = [
         "monthlyRequirement": "none"
     },
     {
+        "id": 10650,
+        "category": "credit",
+        "issuer": "nh",
+        "title": "문화누리카드",
+        "desc": "문화누리 카드 결제시 영화 2,500원 할인(동반 1인 포함)",
+        "value": "문화누리 카드 결제시 영화 2,500원 할인(동반 1인 포함)",
+        "label": "롯데시네마",
+        "tags": [],
+        "img": "https://www.sfac.or.kr/common/sfac2023/images/sub/nuri5.png",
+        "sortValue": 100,
+        "monthlyRequirement": "none"
+    },
+    {
         "id": 10157,
         "category": "credit",
         "issuer": "samsung",
@@ -1275,7 +1288,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         btn.addEventListener('click', () => {
             tabButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
+
             const selectedIssuer = btn.getAttribute('data-issuer');
+            currentIssuer = selectedIssuer; // 이 줄 추가 
+
             renderCards(selectedIssuer, currentRequirement);
         });
     });
