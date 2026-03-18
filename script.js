@@ -24,7 +24,7 @@ const benefitData = [
         "img": "https://www.sfac.or.kr/common/sfac2023/images/sub/nuri5.png",
         "sortValue": 100,
         "monthlyRequirement": "none"
-        "hideSource": true
+        "source": "https://www.mnuri.kr"
     },
     {
         "id": 10157,
