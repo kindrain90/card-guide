@@ -1267,21 +1267,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modalLimitsList.appendChild(li);
                 }
 
-                // 출처 링크
-            const record = limitsMap[String(card.id)];
+// 출처 링크
+const record = limitsMap[String(card.id)];
 
-                if (card.hideSource) {
-                  modalSourceLink.style.display = 'none';
-                } else if (card.source) {
-        modalSourceLink.href = card.source;
-        modalSourceLink.style.display = 'inline-block';
-    } else if (record && record.sourceUrl) {
-        modalSourceLink.href = record.sourceUrl;
-        modalSourceLink.style.display = 'inline-block';
-    } else {
-        modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
-        modalSourceLink.style.display = 'inline-block';
-    }
+if (card.source) {
+    modalSourceLink.href = card.source;
+    modalSourceLink.style.display = 'inline-block';
+} else if (record && record.sourceUrl) {
+    modalSourceLink.href = record.sourceUrl;
+    modalSourceLink.style.display = 'inline-block';
+} else {
+    modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
+    modalSourceLink.style.display = 'inline-block';
+}
 
                 modal.classList.add('active');
             });
