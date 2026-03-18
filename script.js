@@ -23,7 +23,7 @@ const benefitData = [
         "tags": [],
         "img": "https://www.sfac.or.kr/common/sfac2023/images/sub/nuri5.png",
         "sortValue": 100,
-        "monthlyRequirement": "none"
+        "monthlyRequirement": "none",
         "source": "https://www.mnuri.kr"
     },
     {
@@ -1267,16 +1267,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modalLimitsList.appendChild(li);
                 }
 
-                // 출처 링크(있으면 표시)
-                const record = limitsMap[String(card.id)];
-                if (record && record.sourceUrl) {
-                    modalSourceLink.href = record.sourceUrl;
-                    modalSourceLink.style.display = 'inline-block';
-                } else {
-                    // fallback: 네이버 카드검색 형태(원치 않으면 제거해도 됨)
-                    modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
-                    modalSourceLink.style.display = 'inline-block';
-                }
+                // 출처 링크
+            const record = limitsMap[String(card.id)];
+
+                if (card.hideSource) {
+                  modalSourceLink.style.display = 'none';
+                } else if (card.source) {
+        modalSourceLink.href = card.source;
+        modalSourceLink.style.display = 'inline-block';
+    } else if (record && record.sourceUrl) {
+        modalSourceLink.href = record.sourceUrl;
+        modalSourceLink.style.display = 'inline-block';
+    } else {
+        modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
+        modalSourceLink.style.display = 'inline-block';
+    }
 
                 modal.classList.add('active');
             });
