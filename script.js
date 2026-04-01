@@ -1134,6 +1134,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
     }
 
+    // ✅ 카드 이미지 URL 정규화 함수
+    function normalizeImgUrl(url) {
+        if (!url) return 'https://placehold.co/600x400/2c2c2c/e50914?text=Card+Image';
+        // 도메인 중복 방지 (https://https://... 처리)
+        let normalized = url.replace(/^(https?:\/\/)+https?:\/\//i, 'https://');
+        if (!normalized.startsWith('http')) {
+            normalized = 'https://' + normalized;
+        }
+        return normalized;
+    }
+
     // 한글 숫자(만/천/백/십) 복합 단위 변환
     function convertKoreanToNumber(text) {
         const unitMap = { 만: 10000, 천: 1000, 백: 100, 십: 10 };
@@ -1267,19 +1278,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modalLimitsList.appendChild(li);
                 }
 
-// 출처 링크
-const record = limitsMap[String(card.id)];
+                // 출처 링크
+                const record = limitsMap[String(card.id)];
 
-if (card.source) {
-    modalSourceLink.href = card.source;
-    modalSourceLink.style.display = 'inline-block';
-} else if (record && record.sourceUrl) {
-    modalSourceLink.href = record.sourceUrl;
-    modalSourceLink.style.display = 'inline-block';
-} else {
-    modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
-    modalSourceLink.style.display = 'inline-block';
-}
+                if (card.source) {
+                    modalSourceLink.href = card.source;
+                    modalSourceLink.style.display = 'inline-block';
+                } else if (record && record.sourceUrl) {
+                    modalSourceLink.href = record.sourceUrl;
+                    modalSourceLink.style.display = 'inline-block';
+                } else {
+                    modalSourceLink.href = `https://card-search.naver.com/item?cardAdId=${card.id}`;
+                    modalSourceLink.style.display = 'inline-block';
+                }
 
                 modal.classList.add('active');
             });
@@ -1313,4 +1324,34 @@ if (card.source) {
     });
 
     renderCards(currentIssuer, currentRequirement);
+
+    // ✅ 환영 팝업 로직 추가
+    const welcomePopup = document.getElementById('welcomePopup');
+    const closeWelcomeBtn = document.getElementById('closeWelcomeBtn');
+    const closeWelcomeIcon = document.querySelector('.close-welcome');
+
+    if (welcomePopup) {
+        // 페이지 로드 후 0.5초 뒤에 팝업 표시
+        setTimeout(() => {
+            welcomePopup.style.display = 'flex';
+            setTimeout(() => {
+                welcomePopup.classList.add('show');
+            }, 10);
+        }, 500);
+
+        const closePopup = () => {
+            welcomePopup.classList.remove('show');
+            setTimeout(() => {
+                welcomePopup.style.display = 'none';
+            }, 400);
+        };
+
+        closeWelcomeBtn.addEventListener('click', closePopup);
+        closeWelcomeIcon.addEventListener('click', closePopup);
+
+        // 배경 클릭 시 닫기
+        welcomePopup.addEventListener('click', (e) => {
+            if (e.target === welcomePopup) closePopup();
+        });
+    }
 });
