@@ -631,3 +631,128 @@ body.modal-open {
 .modal-content::-webkit-scrollbar-track {
     background: transparent;
 }
+
+/* ========================================= */
+/* ✅ 환영/공지 팝업 프리미엄 스타일          */
+/* ========================================= */
+.welcome-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+}
+
+.welcome-popup.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.welcome-popup-content {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    width: 100%;
+    max-width: 450px;
+    border-radius: 30px;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.welcome-popup.show .welcome-popup-content {
+    transform: scale(1) translateY(0);
+}
+
+.close-welcome {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-welcome:hover {
+    color: var(--primary-color);
+    transform: rotate(90deg);
+}
+
+.welcome-header {
+    margin-bottom: 25px;
+}
+
+.welcome-icon {
+    font-size: 50px;
+    margin-bottom: 15px;
+    animation: bellShake 2s infinite ease-in-out;
+    display: inline-block;
+}
+
+@keyframes bellShake {
+    0%, 100% { transform: rotate(0); }
+    10%, 30%, 50%, 70%, 90% { transform: rotate(10deg); }
+    20%, 40%, 60%, 80% { transform: rotate(-10deg); }
+}
+
+#welcomeTitle {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.welcome-body {
+    margin-bottom: 35px;
+}
+
+.welcome-body p {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+    word-break: keep-all;
+}
+
+.welcome-footer {
+    display: flex;
+    justify-content: center;
+}
+
+.confirm-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: white;
+    border: none;
+    padding: 12px 45px;
+    border-radius: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+}
+
+.confirm-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 25px rgba(255, 107, 107, 0.4);
+}
+
+/* 모바일 팝업 최적화 */
+@media (max-width: 480px) {
+    .welcome-popup-content {
+        padding: 30px 20px;
+        max-width: 90vw;
+    }
+}
